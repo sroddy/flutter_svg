@@ -204,10 +204,22 @@ Drawable parseSvgGroup(XmlElement el, DrawableDefinitionServer definitions,
       parseStyle(el, definitions, bounds, parentStyle, needsTransform: true);
   for (XmlNode child in el.children) {
     if (child is XmlElement) {
-      final Drawable el =
-          parseSvgElement(child, definitions, bounds, style, key);
-      if (el != null) {
-        children.add(el);
+      if (child.name.local == 'defs') {
+        final Drawable el = parseSvgElement(child, definitions, bounds, style, key);
+        if (el != null) {
+          children.add(el);
+        }
+      }
+    }
+  }
+  for (XmlNode child in el.children) {
+    if (child is XmlElement) {
+      if (child.name.local != 'defs') {
+        final Drawable el =
+        parseSvgElement(child, definitions, bounds, style, key);
+        if (el != null) {
+          children.add(el);
+        }
       }
     }
   }
