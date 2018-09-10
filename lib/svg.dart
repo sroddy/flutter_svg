@@ -572,21 +572,21 @@ class _SvgPictureState extends State<SvgPicture> {
         matchTextDirection: widget.matchTextDirection,
         allowDrawingOutsideViewBox: widget.allowDrawingOutsideViewBox,
       );
-      picture = new SizedBox.fromSize(size: _picture.viewBox.size, child: picture,);
+      picture = new SizedBox.fromSize(size: _picture.viewBox.size, child: picture);
+      picture = new FittedBox(fit: widget.fit, alignment:  widget.alignment, child: picture);
+
       double width = widget.width;
       double height = widget.height;
       if (width == null && height == null) {
-        return picture;
-      }
-
-      if (height != null) {
+        width = _picture.viewBox.width;
+        height = _picture.viewBox.height;
+      } else if (height != null) {
         width = height / _picture.viewBox.height * _picture.viewBox.width;
       } else if (width != null) {
         height = width / _picture.viewBox.width * _picture.viewBox.height;
       }
-      picture = new FittedBox(fit: widget.fit, alignment:  widget.alignment, child: picture,);
 
-      return new SizedBox(width: width, height: height, child: picture,);
+      return new SizedBox(width: width, height: height, child: picture);
     }
 
     return widget.placeholderBuilder == null
